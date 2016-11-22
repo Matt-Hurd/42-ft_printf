@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 09:58:28 by mhurd             #+#    #+#             */
-/*   Updated: 2016/09/26 16:54:17 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/10/18 17:08:09 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <string.h>
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+# define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 # define BUFF_SIZE 5000
 
 typedef unsigned char	t_byte;
@@ -101,6 +102,7 @@ char			*ft_strrev(char *str);
 void			*ft_realloc(void *src, size_t srcsize, size_t newsize);
 char			*ft_strcjoin(char *delim, char **arr, size_t size);
 void			ft_printjoin(char *delim, char **arr, size_t size);
+int				ft_count_words(const char *str, char c);
 
 /*
 ** Conversions
@@ -119,10 +121,19 @@ void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstiter(t_list *lst, void (*f)(t_list*elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+void			ft_lstdelcont(t_list **alst, void *cont);
+void			ft_lst_add_back(t_list **alst, t_list *new);
+
+/*
+** Other
+*/
+
+int				ft_get_next_line(const int fd, char **line);
 
 typedef struct	s_file_buff
 {
-	int					fd;
-	char				*str;
+	int			fd;
+	char		*start;
+	char		*str;
 }				t_file_buff;
 #endif

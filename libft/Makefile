@@ -1,5 +1,5 @@
 NAME =	libft.a
-FLAGS =	-Wall -Wextra -Werror
+FLAGS =	-Wall -Wextra -Werror -O3
 CC = 	gcc
 ODIR =	bin/
 IDIR = 
@@ -82,6 +82,7 @@ SRC +=	ft_strsplit.c
 
 SRC +=	ft_strcjoin.c
 SRC +=	ft_printjoin.c
+SRC	+=	ft_count_words.c
 # **************************************************************************** #
 # integer                                                                      #
 # **************************************************************************** #
@@ -97,6 +98,9 @@ SRC +=	ft_lstadd.c
 SRC +=	ft_lstiter.c
 SRC +=	ft_lstmap.c
 SRC +=	ft_lstmap.c
+SRC	+=	ft_lstdelcont.c
+SRC	+=	ft_lst_add_back.c
+
 SRC +=	ft_gnl.c
 
 O =		$(addprefix $(ODIR), $(OBJ))

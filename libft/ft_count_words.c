@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conv_s.c                                        :+:      :+:    :+:   */
+/*   ft_count_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/26 19:17:17 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/06 16:25:49 by mhurd            ###   ########.fr       */
+/*   Created: 2016/09/21 09:34:50 by mhurd             #+#    #+#             */
+/*   Updated: 2016/10/18 17:08:00 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-char	*ft_conv_s(char in, t_arg *flags, va_list ap)
+int		ft_count_words(const char *str, char c)
 {
-	(void)in;
-	(void)flags;
-	(void)ap;
-	return "unimplemented";
+	int i;
+
+	i = 0;
+	while (*str == c)
+		str++;
+	while (*str)
+	{
+		while (*str && *str != c)
+			str++;
+		while (*str == c)
+			str++;
+		i++;
+	}
+	return (i);
 }

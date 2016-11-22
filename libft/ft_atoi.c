@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conv_s.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/26 19:17:17 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/06 16:25:49 by mhurd            ###   ########.fr       */
+/*   Created: 2016/09/21 10:39:51 by mhurd             #+#    #+#             */
+/*   Updated: 2016/10/09 22:34:59 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-char	*ft_conv_s(char in, t_arg *flags, va_list ap)
+int			ft_atoi(const char *str)
 {
-	(void)in;
-	(void)flags;
-	(void)ap;
-	return "unimplemented";
+	int n;
+	int isneg;
+
+	isneg = 0;
+	n = 0;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '+')
+		str++;
+	else if (*str == '-')
+	{
+		isneg = 1;
+		str++;
+	}
+	while (*str && ft_isdigit(*str))
+		n = n * 10 + (*str++ - '0');
+	if (isneg)
+		return (-n);
+	else
+		return (n);
 }

@@ -6,21 +6,11 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/09/26 19:35:57 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/10/06 16:17:08 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-
-
-
-
-/* ************************************************************************** */
-#include <stdio.h>
-/* ************************************************************************** */
-
-
 
 char	*g_convs = "diouxXDOUeEfFgGaACcSspn%";
 
@@ -56,13 +46,14 @@ char	*do_conversion(char **in, va_list ap, unsigned int len)
 {
 	char	*ret;
 	int		i;
-	int		conv_count;
+	// int		conv_count;
 	int		pos_in_tab;
-
+	t_arg	*flags;
 
 	i = -1;
+	flags = find_flags(*in, len);
 	pos_in_tab = ft_strchr(g_convs, (*in)[len]) - g_convs;
-	ret = g_convtab[pos_in_tab].ft(*in, len, ap);
+	ret = g_convtab[pos_in_tab].ft((*in)[len], flags, ap);
 	*in += len + 1;
 	return (ret);
 }
@@ -70,7 +61,7 @@ char	*do_conversion(char **in, va_list ap, unsigned int len)
 char	*get_next_string(char **in, va_list ap)
 {
 	char			*tmp;
-	unsigned int	len;
+	// unsigned int	len;
 	long			dist;
 
 	tmp = *in;
@@ -133,20 +124,6 @@ void	ft_printf(char *in, ...)
 	va_copy(ap2, ap);
 	out_count = count_strings(in);
 	out_buff = (char **)ft_memalloc(sizeof(char *) * out_count);
-	printf("%s, %d\n", in, (int)count_strings(in));
 	while (*in)
-	{
-/* ************************************************************************** */
-		printf("%s\n", get_next_string(&in, ap));
-/* ************************************************************************** */
-	}
+		ft_putstr(get_next_string(&in, ap));
 }
-
-/* ************************************************************************** */
-int		main(int ac, char **av)
-{
-	if (ac == 2)
-		ft_printf(av[1]);
-	printf("%9s", "a");
-}
-/* ************************************************************************** */
