@@ -12,20 +12,10 @@
 
 #include "ft_printf.h"
 
-
-
-
-
-#include <stdio.h>
-
-
-
-
-
-
-char	*ft_conv_unimp(char in, t_arg *flags, va_list ap)
+void	ft_conv_unimp(char in, t_output *out, t_arg *flags, va_list *ap)
 {
 	(void)ap;
+	(void)out;
 	printf("Flag info for conversion %c:\n", in);
 	printf("Alternative: %d\n", flags->alternative);
 	printf("left_justify: %d\n", flags->left_justify);
@@ -37,5 +27,6 @@ char	*ft_conv_unimp(char in, t_arg *flags, va_list ap)
 	printf("got_precision: %d\n", flags->got_precision);
 	printf("width: %d\n", flags->width);
 	printf("precision: %d\n", flags->precision);
-	return "unimplemented";
+	out->str = ft_strnjoin(out->str, out->len, "unimplemented", 13);
+	out->len += 13;
 }

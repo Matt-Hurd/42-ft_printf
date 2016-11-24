@@ -72,7 +72,7 @@ t_arg	*find_flags(char *in, int len)
 	{
 		if (in[x] == '#')
 			ret->alternative = 1;
-		if (in[x] == '0' && in[x - 1] != '.')
+		if (in[x] == '0' && in[x - 1] != '.' && !ft_isdigit(in[x - 1]))
 			ret->pad_zeroes = 1;
 		if (in[x] == '-')
 			ret->left_justify = 1;

@@ -14,6 +14,12 @@
 # define FT_PRINTF_H
 # include "libft.h"
 # include <stdarg.h>
+# include <stdlib.h>
+
+
+
+#include <stdio.h>
+
 
 typedef struct		s_arg
 {
@@ -41,14 +47,25 @@ typedef struct		s_arg
 	}				length;
 }					t_arg;
 
+typedef struct	s_output
+{
+	char	*str;
+	int		len;
+}				t_output;
+
 typedef struct	s_conv
 {
-	char *conv;
-	char *(*ft)(char, t_arg *, va_list);
+	char	*conv;
+	void	(*ft)(char, t_output *, t_arg *, va_list *);
 }				t_conv;
 
-char	*ft_conv_unimp(char in, t_arg *flags, va_list ap);
+void	ft_conv_unimp(char in, t_output *out, t_arg *flags, va_list *ap);
+void	ft_conv_s(char in,  t_output *out, t_arg *flags, va_list *ap);
 t_arg	*find_flags(char *in, int len);
-void	ft_printf(char *in, ...);
+int		ft_printf(char *in, ...);
+
+void	handle_padding(char **str, t_arg *flags);
+void	handle_precision(char **str, t_arg *flags, char type);
+void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap);
 
 #endif

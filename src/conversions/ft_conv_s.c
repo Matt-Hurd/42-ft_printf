@@ -12,10 +12,18 @@
 
 #include "ft_printf.h"
 
-char	*ft_conv_s(char in, t_arg *flags, va_list ap)
+//TODO: Wide chars
+
+void	ft_conv_s(char in, t_output *out, t_arg *flags, va_list *ap)
 {
+	char *s;
+
 	(void)in;
 	(void)flags;
-	(void)ap;
-	return "unimplemented";
+	s = va_arg(ap, char *);
+	s = ft_strdup(s);
+	handle_precision(&s, flags, 's');
+	handle_padding(&s, flags);
+	out->str = ft_strnjoin(out->str, out->len, s, ft_strlen(s));
+	out->len += ft_strlen(s);
 }

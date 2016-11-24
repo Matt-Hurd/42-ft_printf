@@ -33,35 +33,29 @@ t_conv g_convtab[] =
 	{"G", &ft_conv_unimp},
 	{"a", &ft_conv_unimp},
 	{"A", &ft_conv_unimp},
-	{"C", &ft_conv_unimp},
-	{"c", &ft_conv_unimp},
-	{"S", &ft_conv_unimp},
-	{"s", &ft_conv_unimp},
+	{"C", &ft_conv_c},
+	{"c", &ft_conv_c},
+	{"S", &ft_conv_s},
+	{"s", &ft_conv_s},
 	{"p", &ft_conv_unimp},
 	{"n", &ft_conv_unimp},
 	{"%", &ft_conv_unimp}
 };
 
-char	*do_conversion(char **in, va_list ap, unsigned int len)
+void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 {
-	char	*ret;
-	int		i;
-	// int		conv_count;
 	int		pos_in_tab;
 	t_arg	*flags;
 
-	i = -1;
 	flags = find_flags(*in, len);
 	pos_in_tab = ft_strchr(g_convs, (*in)[len]) - g_convs;
-	ret = g_convtab[pos_in_tab].ft((*in)[len], flags, ap);
+	g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
 	*in += len + 1;
-	return (ret);
 }
 
-char	*get_next_string(char **in, va_list ap)
+void	get_next_string(char **in, t_output *out, va_list *ap)
 {
 	char			*tmp;
-	// unsigned int	len;
 	long			dist;
 
 	tmp = *in;
@@ -69,20 +63,23 @@ char	*get_next_string(char **in, va_list ap)
 	if (dist > 0)
 	{
 		*in += dist;
-		return (ft_strncpy(ft_strnew(dist), tmp, dist));
+		out->str = ft_strnjoin(out->str, out->len, tmp, dist);
+		out->len += dist;
+		return ;
 	}
-	else if (dist == -(long)tmp)
+	else if (dist < 0)
 	{
-		*in = ft_strchr(*in, '\0');
-		return (ft_strdup(tmp));
+		dist = ft_strchr(*in, '\0') - tmp;
+		out->str = ft_strnjoin(out->str, out->len, tmp, dist);
+		out->len += dist;
+		*in += dist;
+		return ;
 	}
 	tmp++;
 	while (*tmp && !ft_strchr(g_convs, *tmp))
 		tmp++;
 	if (*tmp)
-		return (do_conversion(in, ap, tmp - *in));
-	else
-		return (NULL);
+		do_conversion(in, out, ap, tmp - *in);
 }
 
 long	count_strings(char *in)
@@ -113,17 +110,18 @@ long	count_strings(char *in)
 	return (ct);
 }
 
-void	ft_printf(char *in, ...)
+int		ft_printf(char *in, ...)
 {
-	va_list	ap;
-	va_list	ap2;
-	char	**out_buff;
-	long	out_count;
+	va_list		ap;
+	va_list		ap2;
+	t_output	out;
 
 	va_start(ap, in);
 	va_copy(ap2, ap);
-	out_count = count_strings(in);
-	out_buff = (char **)ft_memalloc(sizeof(char *) * out_count);
+	out.str = (char *)ft_memalloc(1);
+	out.len = 0;
 	while (*in)
-		ft_putstr(get_next_string(&in, ap));
+		get_next_string(&in, &out, &ap);
+	write(1, out.str, out.len);
+	return (out.len);
 }

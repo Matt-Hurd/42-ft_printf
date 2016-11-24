@@ -14,7 +14,9 @@
 
 int		main(int ac, char **av)
 {
-	if (ac > 1)
-		ft_printf(av[1]);
+	// if (ac > 1)
+	// 	ft_printf(av[1]);
+	ft_printf("ABC %8.1s DEF %c test\n", "HELLO", 0);
+	printf("ABC %8.1s DEF %c test\n", "HELLO", 0);
 	return (0);
 }

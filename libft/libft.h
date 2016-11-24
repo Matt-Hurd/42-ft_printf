@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
+# include <unistd.h>
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 # define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 # define BUFF_SIZE 5000
@@ -101,6 +102,7 @@ char			*ft_strtrim(char const *s);
 char			*ft_strrev(char *str);
 void			*ft_realloc(void *src, size_t srcsize, size_t newsize);
 char			*ft_strcjoin(char *delim, char **arr, size_t size);
+char			*ft_strnjoin(char const *s1, int len1, char const *s2, int len2);
 void			ft_printjoin(char *delim, char **arr, size_t size);
 int				ft_count_words(const char *str, char c);
 

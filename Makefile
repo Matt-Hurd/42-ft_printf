@@ -12,14 +12,17 @@
 
 NAME = libftprintf.a
 
-C_INCLUDE_PATH += includes/ libft/include
+C_INCLUDE_PATH += includes/ libft
 
 CFLAGS += -Wall -Wextra -Werror
 CFLAGS += $(foreach d, $(C_INCLUDE_PATH), -I$d)
 
 SRCS = src/ft_printf.c \
 	   src/helpers/flag_finder.c \
+	   src/helpers/handle_padding.c \
+	   src/helpers/handle_precision.c \
 	   src/conversions/ft_conv_s.c \
+	   src/conversions/ft_conv_c.c \
 	   src/conversions/ft_conv_unimp.c \
 
 LIBFT_FUNS =	memalloc \
@@ -36,7 +39,9 @@ LIBFT_FUNS =	memalloc \
 				strcpy \
 				atoi \
 				isdigit \
-				isspace
+				isspace \
+				strnjoin \
+				memcpy
 
 CFLAGS += $(foreach fun,$(LIBFT_FUNS),-Dft_$(fun)=ft_printf_libft_$(fun))
 
