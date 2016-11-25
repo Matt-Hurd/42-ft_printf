@@ -45,6 +45,12 @@ LIBFT_FUNS =	memalloc \
 				strnjoin \
 				memcpy \
 				itoa_base \
+				strjoin \
+				isalpha \
+				toupper \
+				isupper \
+				islower \
+				strcat
 
 CFLAGS += $(foreach fun,$(LIBFT_FUNS),-Dft_$(fun)=ft_printf_libft_$(fun))
 

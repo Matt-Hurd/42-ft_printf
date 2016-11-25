@@ -61,7 +61,26 @@ void	find_length(char *in, int len, t_arg *ret)
 	}
 }
 
-t_arg	*find_flags(char *in, int len)
+void	find_asterisk(char *in, t_arg *ret, va_list *ap)
+{
+	int x;
+	int found;
+
+	x = -1;
+	while (in[++x])
+	{
+		if (in[x] == '*')
+		{
+			found = va_arg(ap, int);
+			if (found < 0)
+				ret->left_justify = 1;
+			ret->width = ABS(found);
+			ret->got_width = 1;
+		}
+	}
+}
+
+t_arg	*find_flags(char *in, int len, va_list *ap)
 {
 	t_arg	*ret;
 	int		x;
@@ -84,6 +103,7 @@ t_arg	*find_flags(char *in, int len)
 			ret->grouping = 1;
 	}
 	find_width_precision(in, len, ret);
+	find_asterisk(in, ret, ap);
 	find_length(in, len, ret);
 	return (ret);
 }

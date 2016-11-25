@@ -17,7 +17,8 @@ int		main(int ac, char **av)
 	int x, y;
 	// if (ac > 1)
 	// 	ft_printf(av[1]);
-	x = ft_printf("ABC %8.1s DEF %c test %hho\n", "HELLO", 0, -134);
-	y = printf("ABC %8.1s DEF %c test %hho\n", "HELLO", 0, -134);
+	// x = ft_printf("ABC %8.1s DEF %c test %#07.4X\n", "HELLO", 0, 134);
+	// y = printf("ABC %8.1s DEF %c test %#07.4X\n", "HELLO", 0, 134);
+	ft_printf("%s\n", 0);
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*g_convs = "diouxXDOUeEfFgGaACcSspn%";
+char	*g_convs = "diouxXDOUeEfFgGaAZCcSspn%";
 
 t_conv g_convtab[] =
 {
@@ -33,11 +33,12 @@ t_conv g_convtab[] =
 	{"G", &ft_conv_unimp},
 	{"a", &ft_conv_unimp},
 	{"A", &ft_conv_unimp},
+	{"Z", &ft_conv_unimp},
 	{"C", &ft_conv_c},
 	{"c", &ft_conv_c},
 	{"S", &ft_conv_s},
 	{"s", &ft_conv_s},
-	{"p", &ft_conv_unimp},
+	{"p", &ft_conv_nums},
 	{"n", &ft_conv_unimp},
 	{"%", &ft_conv_unimp}
 };
@@ -47,7 +48,7 @@ void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 	int		pos_in_tab;
 	t_arg	*flags;
 
-	flags = find_flags(*in, len);
+	flags = find_flags(*in, len, ap);
 	pos_in_tab = ft_strchr(g_convs, (*in)[len]) - g_convs;
 	g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
 	*in += len + 1;

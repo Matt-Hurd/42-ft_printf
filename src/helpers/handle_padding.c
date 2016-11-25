@@ -1,7 +1,7 @@
 
 #include "ft_printf.h"
 
-void	handle_padding(char **str, t_arg *flags)
+void	handle_padding(char **str, t_arg *flags, char type)
 {
 	char *n;
 
@@ -17,7 +17,10 @@ void	handle_padding(char **str, t_arg *flags)
 	}
 	else
 	{
-		ft_memset(n, ' ', flags->width - ft_strlen(*str));
+		if (flags->pad_zeroes && type == 'd')
+			ft_memset(n, '0', flags->width - ft_strlen(*str));
+		else
+			ft_memset(n, ' ', flags->width - ft_strlen(*str));
 		ft_strcpy(n + flags->width - ft_strlen(*str), *str);
 	}
 	*str = n;
