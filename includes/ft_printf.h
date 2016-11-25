@@ -15,11 +15,29 @@
 # include "libft.h"
 # include <stdarg.h>
 # include <stdlib.h>
+# include <limits.h>
+# include <stdint.h>
+
+# define SIZET_MAX (~(size_t)0)
 
 
 
 #include <stdio.h>
 
+typedef unsigned int u32;
+
+enum { //length
+		none,
+		hh,
+		h,
+		l,
+		ll,
+		L,
+		q,
+		j,
+		z,
+		t
+	}				length;
 
 typedef struct		s_arg
 {
@@ -33,18 +51,7 @@ typedef struct		s_arg
 	int				got_precision : 1;
 	unsigned int	width;
 	unsigned int	precision;
-	enum { //length
-		none,
-		hh,
-		h,
-		l,
-		ll,
-		L,
-		q,
-		j,
-		z,
-		t
-	}				length;
+	char			length;
 }					t_arg;
 
 typedef struct	s_output
@@ -61,11 +68,13 @@ typedef struct	s_conv
 
 void	ft_conv_unimp(char in, t_output *out, t_arg *flags, va_list *ap);
 void	ft_conv_s(char in,  t_output *out, t_arg *flags, va_list *ap);
+void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap);
 t_arg	*find_flags(char *in, int len);
 int		ft_printf(char *in, ...);
 
 void	handle_padding(char **str, t_arg *flags);
 void	handle_precision(char **str, t_arg *flags, char type);
 void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap);
+char	*ft_num_to_base(uintmax_t value, u32 base, char unsign, char type);
 
 #endif

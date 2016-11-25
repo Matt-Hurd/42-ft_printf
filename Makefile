@@ -21,8 +21,10 @@ SRCS = src/ft_printf.c \
 	   src/helpers/flag_finder.c \
 	   src/helpers/handle_padding.c \
 	   src/helpers/handle_precision.c \
+	   src/helpers/num_to_string.c \
 	   src/conversions/ft_conv_s.c \
 	   src/conversions/ft_conv_c.c \
+	   src/conversions/ft_conv_nums.c \
 	   src/conversions/ft_conv_unimp.c \
 
 LIBFT_FUNS =	memalloc \
@@ -41,7 +43,8 @@ LIBFT_FUNS =	memalloc \
 				isdigit \
 				isspace \
 				strnjoin \
-				memcpy
+				memcpy \
+				itoa_base \
 
 CFLAGS += $(foreach fun,$(LIBFT_FUNS),-Dft_$(fun)=ft_printf_libft_$(fun))
 
@@ -77,7 +80,7 @@ clean:
 	$(RM) $(OBJS)
 
 test: $(NAME)
-	$(CC) -o $@ -I includes main.c -L. -lftprintf
+	$(CC) -o $@ -I includes main.c -L. -lftprintf -L./libft -lft
 
 fclean: clean
 	$(RM) $(NAME)

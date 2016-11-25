@@ -79,6 +79,7 @@ SRC +=	ft_strsub.c
 SRC +=	ft_strjoin.c
 SRC +=	ft_strtrim.c
 SRC +=	ft_strsplit.c
+SRC +=	ft_strnjoin.c
 
 SRC +=	ft_strcjoin.c
 SRC +=	ft_printjoin.c
@@ -88,6 +89,7 @@ SRC	+=	ft_count_words.c
 # **************************************************************************** #
 SRC +=	ft_atoi.c
 SRC +=	ft_itoa.c
+SRC +=	ft_itoa_base.c
 # **************************************************************************** #
 # list                                                                         #
 # **************************************************************************** #

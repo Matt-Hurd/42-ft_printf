@@ -16,6 +16,7 @@
 # include <unistd.h>
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 # define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+# define ABS(X) ((X > 0) ? X : -X)
 # define BUFF_SIZE 5000
 
 typedef unsigned char	t_byte;
@@ -112,6 +113,7 @@ int				ft_count_words(const char *str, char c);
 
 int				ft_atoi(const char *nptr);
 char			*ft_itoa(int n);
+char			*ft_itoa_base(int value, int base);
 
 /*
 ** List
