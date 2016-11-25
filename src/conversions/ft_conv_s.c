@@ -89,7 +89,12 @@ void	ft_conv_s(char in, t_output *out, t_arg *flags, va_list *ap)
 	(void)in;
 	s = va_arg(ap, char *);
 	if (!s)
-		s = ft_strdup("(null)");
+	{
+		if (!flags->got_precision ||(flags->got_precision && flags->precision >= 6))
+			s = ft_strdup("(null)");
+		else
+			s = ft_strdup("");
+	}
 	else
 		s = ft_strdup(s);
 	handle_precision(&s, flags, 's');

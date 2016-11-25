@@ -3,7 +3,8 @@
 
 void	handle_padding(char **str, t_arg *flags, char type)
 {
-	char *n;
+	char	*n;
+	char	alt;
 
 	if (!flags->got_width)
 		return ;
@@ -17,11 +18,23 @@ void	handle_padding(char **str, t_arg *flags, char type)
 	}
 	else
 	{
-		if (flags->pad_zeroes && type == 'd')
-			ft_memset(n, '0', flags->width - ft_strlen(*str));
+		alt = 0;
+		if (flags->pad_zeroes && (type == 'd' || type == 'u'))
+		{
+			alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;
+			ft_memset(n, '0', flags->width - ft_strlen(*str) + !!alt);
+			if (alt)
+				n[0] = alt;
+			if (alt)
+				(*str)[0] = '0';
+		}
 		else
+		{
 			ft_memset(n, ' ', flags->width - ft_strlen(*str));
-		ft_strcpy(n + flags->width - ft_strlen(*str), *str);
+			if (flags->force_sign || (*str)[0] == '-')
+				n[flags->width - ft_strlen(*str)] = ((*str)[0] == '-') ? '-' : '+';
+		}
+		ft_strcpy(n + flags->width - ft_strlen(*str) + !!alt, *str + !!alt);
 	}
 	*str = n;
 }

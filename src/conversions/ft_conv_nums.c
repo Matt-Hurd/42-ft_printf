@@ -14,12 +14,15 @@ void	handle_upper(char *str, char in)
 	}
 }
 
-void	handle_alternative(char **str, t_arg *flags)
+void	handle_alternative(char **str, t_arg *flags, char in)
 {
-	if (!flags->alternative)
+	if (!flags->alternative && in != 'p')
 		return ;
 	flags->pad_zeroes = 0;
-	*str = ft_strjoin("0x", *str);
+	if ((in == 'x' || in == 'X' || in == 'p') && ft_strcmp("0", *str))
+		*str = ft_strjoin("0x", *str);
+	else if ((in == 'o' || in == 'O') && (*str)[0] != '0' && (*str)[0])
+		*str = ft_strjoin("0", *str);
 }
 
 int		find_base(char in)
@@ -45,8 +48,9 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 {
 	uintmax_t	num;
 	char		*str;
+	char		nill;
 
-	(void)in;
+	in = (in == 'i') ? 'd' : in;
 	if (in == 'p')
 	{
 		flags->alternative = 1;
@@ -67,10 +71,33 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 	else
 		num = va_arg(ap, int);
 	str = ft_num_to_base(num, find_base(in), find_sign(in), flags->length);
-	handle_precision(&str, flags, 'd');
-	handle_alternative(&str, flags);
-	handle_padding(&str, flags, 'd');
-	handle_upper(str, in);
+	nill = (in == 'p' && ft_strcmp(str, "0") == 0) ? 1 : 0;
+	if (nill)
+	{
+		str = ft_strdup("(nil)");
+		flags->got_precision = 0;
+		handle_precision(&str, flags, 's');
+		handle_padding(&str, flags, 's');
+	}
+	else
+	{
+		if (flags->got_precision && flags->precision == 0 && !ft_strcmp(str, "0"))
+			str[0] = 0;
+		if (((flags->force_sign || flags->blank_sign) && str[0] != '-') && (in == 'd' || in == 'D'))
+		{
+			str = ft_strjoin(flags->blank_sign ? " " : "+", str);
+			str[0] = flags->force_sign ? '+' : str[0];
+		}
+		handle_precision(&str, flags, (in == 'd' || in == 'D' || in == 'p') ? 'd' : 'u');
+		handle_alternative(&str, flags, in);
+		if (((flags->force_sign || flags->blank_sign) && str[0] != '-') && (in == 'p'))
+		{
+			str = ft_strjoin(flags->blank_sign ? " " : "+", str);
+			str[0] = flags->force_sign ? '+' : str[0];
+		}
+		handle_padding(&str, flags, (in == 'd' || in == 'D') ? 'd' : 'u');
+		handle_upper(str, in);
+	}
 	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
 	out->len += ft_strlen(str);
 }

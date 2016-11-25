@@ -44,7 +44,8 @@ void	handle_wchar_precision(wchar_t **str, t_arg *flags)
 
 void	handle_precision(char **str, t_arg *flags, char type)
 {
-	char *n;
+	char	*n;
+	char	alt;
 
 	if (!flags->got_precision)
 		return ;
@@ -56,13 +57,18 @@ void	handle_precision(char **str, t_arg *flags, char type)
 			return ;
 		(*str)[flags->precision] = 0;
 	}
-	else if (type == 'd')
+	else if (type == 'd' || type == 'u')
 	{
 		if (ft_strlen(*str) >= flags->precision)
 			return ;
-		n = ft_memalloc(sizeof(char) * flags->precision);
-		ft_memset(n, '0', flags->precision - ft_strlen(*str));
-		ft_strcpy(n + flags->precision - ft_strlen(*str), *str);
+		alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;
+		if (alt)
+			(*str)++;
+		n = ft_memalloc(sizeof(char) * flags->precision + !!alt);
+		ft_memset(n + !!alt, '0', flags->precision - ft_strlen(*str));
+		ft_strcpy(n + flags->precision - ft_strlen(*str) + !!alt, *str);
+		if (alt)
+			n[0] = alt;
 		*str = n;
 	}
 }

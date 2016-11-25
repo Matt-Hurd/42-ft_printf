@@ -50,6 +50,7 @@ typedef struct		s_arg
 	int				got_width : 1; //
 	int				got_precision : 1;
 	int				asterisk : 1;
+	int				invalid : 1;
 	unsigned int	width;
 	unsigned int	precision;
 	char			length;

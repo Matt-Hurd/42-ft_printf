@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*g_convs = "diouxXDOUeEfFgGaAZCcSspn%";
+char	*g_convs = "diouxXDOUeEfFgGaACcSspn%Z";
 
 t_conv g_convtab[] =
 {
@@ -33,15 +33,40 @@ t_conv g_convtab[] =
 	{"G", &ft_conv_unimp},
 	{"a", &ft_conv_unimp},
 	{"A", &ft_conv_unimp},
-	{"Z", &ft_conv_unimp},
 	{"C", &ft_conv_c},
 	{"c", &ft_conv_c},
 	{"S", &ft_conv_s},
 	{"s", &ft_conv_s},
 	{"p", &ft_conv_nums},
 	{"n", &ft_conv_unimp},
-	{"%", &ft_conv_unimp}
+	{"%", &ft_conv_unimp},
+	{"Z", &ft_conv_unimp}
 };
+
+void	handle_invalid(char **in, t_output *out, unsigned int len)
+{
+	char	*str;
+	char	*search;
+	int		i;
+	
+	search = ft_strnew(len + 1);
+	ft_strncpy(search, *in, len + 1);
+	str = ft_strnew(len + 1);
+	str[0] = '%';
+	if (ft_strchr(search, '#'))
+		ft_strcat(str, "#");
+	if (ft_strchr(search, '+'))
+		ft_strcat(str, "+");
+	if (ft_strchr(search, '-'))
+		ft_strcat(str, "-");
+	i = 0;
+	while (search[++i])
+		if (search[i] != '#' && search[i] != '+' && search[i] != '-' && search[i] != ' ' && (search[i] != '0' || !ft_strchr(search, '-')))
+			break ;
+	ft_strcat(str, search + i);
+	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
+	out->len += ft_strlen(str);
+}
 
 void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 {
@@ -49,6 +74,12 @@ void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 	t_arg	*flags;
 
 	flags = find_flags(*in, len, ap);
+	if (flags->invalid)
+	{
+		handle_invalid(in, out, len);
+		*in += len + 1;
+		return ;
+	}
 	pos_in_tab = ft_strchr(g_convs, (*in)[len]) - g_convs;
 	g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
 	*in += len + 1;

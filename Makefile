@@ -50,7 +50,10 @@ LIBFT_FUNS =	memalloc \
 				toupper \
 				isupper \
 				islower \
-				strcat
+				strcat \
+				strcmp \
+				isalnum \
+				isalpha
 
 CFLAGS += $(foreach fun,$(LIBFT_FUNS),-Dft_$(fun)=ft_printf_libft_$(fun))
 
