@@ -87,6 +87,11 @@ void	ft_conv_s(char in, t_output *out, t_arg *flags, va_list *ap)
 	char *s;
 
 	(void)in;
+	if (flags->length == l)
+	{
+		ft_conv_ws(in, out, flags, ap);
+		return ;
+	}
 	s = va_arg(ap, char *);
 	if (!s)
 	{

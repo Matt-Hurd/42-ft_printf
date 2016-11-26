@@ -10,14 +10,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+NAME =	libftprintf.a
+FLAGS =	-Wall -Wextra -Werror
+CC = 	gcc
+ODIR =	bin/
+IDIR =	includes/
+SRC =
+OBJ =	$(SRC:.c=.o)
+EXT =	$(IDIR)ft_printf.h
 
-C_INCLUDE_PATH += includes/ libft
-
-CFLAGS += -Wall -Wextra -Werror
-CFLAGS += $(foreach d, $(C_INCLUDE_PATH), -I$d)
-
-SRCS = src/ft_printf.c \
+EXT +=	Makefile
+SRC = src/ft_printf.c \
 	   src/helpers/flag_finder.c \
 	   src/helpers/handle_padding.c \
 	   src/helpers/handle_precision.c \
@@ -26,75 +29,68 @@ SRCS = src/ft_printf.c \
 	   src/conversions/ft_conv_c.c \
 	   src/conversions/ft_conv_nums.c \
 	   src/conversions/ft_conv_unimp.c \
+	   src/conversions/ft_conv_percent.c \
+	   			libft/ft_memalloc.c \
+				libft/ft_putstr.c \
+				libft/ft_strchr.c \
+				libft/ft_strdup.c \
+				libft/ft_strncpy.c \
+				libft/ft_strnew.c \
+				libft/ft_bzero.c \
+				libft/ft_putstr_fd.c \
+				libft/ft_strlen.c \
+				libft/ft_memset.c \
+				libft/ft_strcpy.c \
+				libft/ft_atoi.c \
+				libft/ft_isdigit.c \
+				libft/ft_isspace.c \
+				libft/ft_strnjoin.c \
+				libft/ft_memcpy.c \
+				libft/ft_itoa_base.c \
+				libft/ft_strjoin.c \
+				libft/ft_isalpha.c \
+				libft/ft_toupper.c \
+				libft/ft_isupper.c \
+				libft/ft_islower.c \
+				libft/ft_strcat.c \
+				libft/ft_strcmp.c \
+				libft/ft_isalnum.c \
+				libft/ft_isalpha.c
 
-LIBFT_FUNS =	memalloc \
-				putstr \
-				strchr \
-				strdup \
-				strncpy \
-				strnew \
-				bzero \
-				putstr_fd \
-				putstr_fd \
-				strlen \
-				memset \
-				strcpy \
-				atoi \
-				isdigit \
-				isspace \
-				strnjoin \
-				memcpy \
-				itoa_base \
-				strjoin \
-				isalpha \
-				toupper \
-				isupper \
-				islower \
-				strcat \
-				strcmp \
-				isalnum \
-				isalpha
-
-CFLAGS += $(foreach fun,$(LIBFT_FUNS),-Dft_$(fun)=ft_printf_libft_$(fun))
-
-OBJS = $(patsubst src/%.c,obj/%.o,$(SRCS))
-OBJS += $(foreach fun,$(LIBFT_FUNS),obj/libft/ft_$(fun).o)
-
-CP = cp
-
-RM = rm -f
+O =		$(addprefix $(ODIR), $(OBJ))
 
 all: $(NAME)
 
-$(OBJS): | obj
+love: all
 
-obj:
-	@mkdir -p $@
-	@mkdir -p $@/handlers
-	@mkdir -p $@/utils
-	@mkdir -p $@/libft
-	@mkdir -p $@/helpers
-	@mkdir -p $@/conversions
+norm:
+	norminette $(S)
 
-obj/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+$(NAME): $(O) $(EXT)
+	@ar rc $(NAME) $(O)
+	@ranlib $(NAME)
 
-obj/libft/%.o: libft/%.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+$(ODIR)%.o: %.c $(EXT)
+	@echo "-> Compiling $<..."
+	@$(CC) $(FLAGS) -c -I includes $< -o $@
 
-$(NAME): $(OBJS)
-	$(AR) -rcs $(NAME) $^
+$(O): | ./bin
+
+./bin:
+	@mkdir $(ODIR)
+	@mkdir $(ODIR)src/
+	@mkdir $(ODIR)src/conversions/
+	@mkdir $(ODIR)src/helpers/
+	@mkdir $(ODIR)/libft/
 
 clean:
-	$(RM) $(OBJS)
-
-test: $(NAME)
-	$(CC) -o $@ -I includes main.c -L. -lftprintf -L./libft -lft
+	@echo "-> Cleaning libft object files..."
+	@rm -rf bin/
 
 fclean: clean
-	$(RM) $(NAME)
-	$(RM) -rf obj
+	@echo "-> Cleaning $(NAME)..."
+	@rm -f $(NAME) 
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm

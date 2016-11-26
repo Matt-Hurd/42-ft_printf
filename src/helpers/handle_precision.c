@@ -59,6 +59,7 @@ void	handle_precision(char **str, t_arg *flags, char type)
 	}
 	else if (type == 'd' || type == 'u')
 	{
+		flags->pad_zeroes = 0;	
 		if (ft_strlen(*str) >= flags->precision)
 			return ;
 		alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;

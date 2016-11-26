@@ -39,7 +39,7 @@ t_conv g_convtab[] =
 	{"s", &ft_conv_s},
 	{"p", &ft_conv_nums},
 	{"n", &ft_conv_unimp},
-	{"%", &ft_conv_unimp},
+	{"%", &ft_conv_percent},
 	{"Z", &ft_conv_unimp}
 };
 

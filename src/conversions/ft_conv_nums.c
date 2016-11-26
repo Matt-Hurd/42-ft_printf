@@ -54,13 +54,13 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 	if (in == 'p')
 	{
 		flags->alternative = 1;
-		flags->length = l;
+		flags->length = p;
 	}
 	if (flags->length == hh)
 		num = va_arg(ap, int);
 	else if (flags->length == h)
 		num = va_arg(ap, int);
-	else if (flags->length == l)
+	else if (flags->length == l || flags->length == p)
 		num = va_arg(ap, long);
 	else if (flags->length == ll || flags->length == q)
 		num = va_arg(ap, long long);

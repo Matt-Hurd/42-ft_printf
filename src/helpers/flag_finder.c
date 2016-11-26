@@ -17,7 +17,7 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 	int x;
 
 	x = -1;
-	while (++x < len)
+	while (x < len)
 	{
 		if (in[x] != '0' && ft_isdigit(in[x]) && in[x - 1] != '.')
 		{
@@ -28,7 +28,7 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 			}
 			ret->got_width = 1;
 			ret->width = ft_atoi(in + x);
-			while (in[x] && ft_isdigit(in[x++]))
+			while (in[x] && ft_isdigit(in[x]))
 				x++;
 		}
 		if (in[x] == '.' && in[x + 1] != '*')
@@ -43,6 +43,7 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 			while (in[x] && ft_isdigit(in[x++]))
 				x++;
 		}
+		x++;
 	}
 }
 
@@ -85,13 +86,13 @@ void	find_length(char *in, int len, t_arg *ret)
 	}
 }
 
-void	find_asterisk(char *in, t_arg *ret, va_list *ap)
+void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 {
 	int x;
 	int found;
 
 	x = -1;
-	while (in[++x])
+	while (++x < len)
 	{
 		if (in[x] == '*')
 		{
@@ -150,8 +151,8 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 		}
 		if (in[x] == '0' && in[x - 1] != '.' && !ft_isdigit(in[x - 1]))
 		{
-			if (ret->pad_zeroes)
-				ret->invalid = 1;
+			while (in[x] && ft_isdigit(in[x]))
+				x++;
 			ret->pad_zeroes = 1;
 		}
 		if (in[x] == '-')
@@ -161,11 +162,7 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 			ret->left_justify = 1;
 		}
 		if (in[x] == ' ')
-		{
-			if (ret->blank_sign)
-				ret->invalid = 1;
 			ret->blank_sign = 1;
-		}
 		if (in[x] == '+')
 		{
 			if (ret->force_sign)
@@ -180,7 +177,7 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 		}
 	}
 	find_width_precision(in, len, ret);
-	find_asterisk(in, ret, ap);
+	find_asterisk(in, ret, ap, len);
 	find_length(in, len, ret);
 	return (ret);
 }

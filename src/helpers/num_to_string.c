@@ -5,14 +5,14 @@ char g_hex[] = "0123456789abcdef";
 int		handle_unsign(uintmax_t *value, char type)
 {
 	if (type == l && *value > LONG_MAX)
-		*value = *value - (UINTMAX_MAX - ULONG_MAX);
+		*value = *value - (UINTMAX_MAX) - 1;
 	else if (type == ll && *value > LLONG_MAX)
-		*value = *value - (UINTMAX_MAX - ULLONG_MAX);
+		*value = *value - (UINTMAX_MAX) - 1;
 	else if (type == h && *value > SHRT_MAX)
-		*value = *value - (UINTMAX_MAX - USHRT_MAX);
+		*value = *value - (UINTMAX_MAX) - 1;
 	else if (type == hh && *value > SCHAR_MAX)
-		*value = *value - (UINTMAX_MAX - UCHAR_MAX);
-	else if (*value > INT_MAX)
+		*value = *value - (UINTMAX_MAX) - 1;
+	else if (type != z && type != j && type != p && *value > INT_MAX)
 		*value = *value - (UINTMAX_MAX - UINT_MAX);
 	return (1);
 }
