@@ -18,15 +18,17 @@ wchar_t	*wchar_dup(wchar_t *in)
 {
 	wchar_t *ret;
 	size_t	count;
+	size_t	i;
 
 	count = 0;
-	while (in[count++])
-		;
+	while (in[count])
+		count++;
 	ret = (wchar_t *)ft_memalloc(sizeof(wchar_t) * count);
-	while (count)
+	i = 0;
+	while (i < count)
 	{
-		ret[count] = in[count];
-		count--;
+		ret[i] = in[i];
+		i++;
 	}
 	return (ret);
 }
@@ -87,7 +89,7 @@ void	ft_conv_s(char in, t_output *out, t_arg *flags, va_list *ap)
 	char *s;
 
 	(void)in;
-	if (flags->length == l)
+	if (flags->length == l || in == 'S')
 	{
 		ft_conv_ws(in, out, flags, ap);
 		return ;

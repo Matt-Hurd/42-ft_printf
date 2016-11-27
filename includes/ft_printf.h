@@ -82,5 +82,6 @@ char	*ft_num_to_base(uintmax_t value, u32 base, char unsign, char type);
 void	ft_conv_percent(char in, t_output *out, t_arg *flags, va_list *ap);
 size_t	wcharp_len(wchar_t *in);
 int		wchar_len(wchar_t chr);
+void	ft_conv_n(char in, t_output *out, t_arg *flags, va_list *ap);
 
 #endif

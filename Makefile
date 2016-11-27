@@ -30,6 +30,7 @@ SRC = src/ft_printf.c \
 	   src/conversions/ft_conv_nums.c \
 	   src/conversions/ft_conv_unimp.c \
 	   src/conversions/ft_conv_percent.c \
+	   src/conversions/ft_conv_n.c \
 	   			libft/ft_memalloc.c \
 				libft/ft_putstr.c \
 				libft/ft_strchr.c \
