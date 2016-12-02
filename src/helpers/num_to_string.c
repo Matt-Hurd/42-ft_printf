@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   num_to_string.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/01 22:58:26 by mhurd             #+#    #+#             */
+/*   Updated: 2016/12/01 23:00:33 by mhurd            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 char g_hex[] = "0123456789abcdef";
@@ -18,29 +30,33 @@ int		handle_unsign(uintmax_t *value, char type)
 		*value = *value - (UINTMAX_MAX) - 1;
 		*value %= (UCHAR_MAX) + 1;
 	}
-	else if (*value > INT_MAX && type != hh && type != h && type != ll && type != l && type != j && type != z)
+	else if (*value > INT_MAX && type != hh && type != h
+		&& type != ll && type != l && type != j && type != z)
 		*value = *value - (UINTMAX_MAX - UINT_MAX);
 	if (type == p && *value > 0x100000000)
 		*value -= 0x100000000;
 	return (1);
 }
 
-int		handle_sign(uintmax_t *value, u32 base, char unsign, char type)
+int		handle_schar(uintmax_t *value)
+{
+	*value %= UCHAR_MAX;
+	if (*value > CHAR_MAX)
+	{
+		*value = UINTMAX_MAX - (*value - UCHAR_MAX) + 2;
+		return (2);
+	}
+	return ((char)*value < 0 ? 2 : 1);
+}
+
+int		handle_sign(uintmax_t *value, t_u32 base, char unsign, char type)
 {
 	if (unsign || base != 10)
 		return (handle_unsign(value, type));
 	else if (type == j && *value == (unsigned long)LONG_MIN)
 		;
 	else if (type == hh && *value > SCHAR_MAX)
-	{
-		*value %= UCHAR_MAX;
-		if (*value > CHAR_MAX)
-		{
-			*value = UINTMAX_MAX - (*value - UCHAR_MAX) + 2;
-			return (2);
-		}
-		return ((char)*value < 0 ? 2 : 1);
-	}
+		return (handle_schar(value));
 	else if (type == h && *value > SHRT_MAX)
 	{
 		*value %= USHRT_MAX;
@@ -52,14 +68,15 @@ int		handle_sign(uintmax_t *value, u32 base, char unsign, char type)
 		*value = ULLONG_MAX - (unsigned long long)(*value) + 1;
 	else if ((type == j || type == z) && *value > (uintmax_t)INTMAX_MIN)
 		*value = UINTMAX_MAX - *value + 1;
-	else if (*value > INT_MAX && type != hh && type != h && type != ll && type != l && type != j && type != z)
+	else if (*value > INT_MAX && type != hh && type != h && type != ll
+		&& type != l && type != j && type != z)
 		*value = UINT_MAX - (unsigned int)(*value) + 1;
 	else
 		return (1);
 	return (2);
 }
 
-char	*ft_num_to_base(uintmax_t value, u32 base, char unsign, char type)
+char	*ft_num_to_base(uintmax_t value, t_u32 base, char unsign, char type)
 {
 	char		*ret;
 	uintmax_t	x;

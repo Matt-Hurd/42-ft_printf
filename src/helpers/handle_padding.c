@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 22:43:43 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:44:28 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 22:49:17 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	right_justify(char **str, t_arg *flags, char type, char *n)
 {
 	char alt;
+
 	alt = 0;
 	if (flags->pad_zeroes)
 	{
@@ -28,7 +29,7 @@ void	right_justify(char **str, t_arg *flags, char type, char *n)
 	else
 	{
 		ft_memset(n, ' ', flags->width - ft_strlen(*str));
-		if (flags->force_sign || (*str)[0] == '-')
+		if (flags->force || (*str)[0] == '-')
 			n[flags->width - ft_strlen(*str)] = ((*str)[0] == '-') ? '-' : '+';
 	}
 	ft_strcpy(n + flags->width - ft_strlen(*str) + !!alt, *str + !!alt);

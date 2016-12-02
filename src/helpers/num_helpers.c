@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_conv_percent.c                                  :+:      :+:    :+:   */
+/*   num_helpers.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/01 23:28:06 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 23:28:29 by mhurd            ###   ########.fr       */
+/*   Created: 2016/12/01 23:47:41 by mhurd             #+#    #+#             */
+/*   Updated: 2016/12/01 23:47:48 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_conv_percent(char in, t_output *out, t_arg *flags, va_list *ap)
+int		find_base(char in)
 {
-	char	*str;
+	if (in == 'o' || in == 'O')
+		return (8);
+	else if (in == 'x' || in == 'X' || in == 'p')
+		return (16);
+	else if (in == 'b')
+		return (2);
+	else
+		return (10);
+}
 
-	(void)ap;
-	str = ft_strnew(1);
-	str[0] = in;
-	handle_padding(&str, flags, '%');
-	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
-	out->len += ft_strlen(str);
+int		find_sign(char in)
+{
+	if (in == 'd' || in == 'i')
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 09:58:28 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/18 17:08:09 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 23:42:47 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char			*ft_strtrim(char const *s);
 char			*ft_strrev(char *str);
 void			*ft_realloc(void *src, size_t srcsize, size_t newsize);
 char			*ft_strcjoin(char *delim, char **arr, size_t size);
-char			*ft_strnjoin(char const *s1, int len1, char const *s2, int len2);
+char			*ft_strnjoin(char const *s1, int len1, char const *s2, int l2);
 void			ft_printjoin(char *delim, char **arr, size_t size);
 int				ft_count_words(const char *str, char c);
 

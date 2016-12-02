@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 19:17:17 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:24:04 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 23:36:12 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ wchar_t	*wchar_dup(wchar_t *in)
 	return (ret);
 }
 
-char	*wchar_to_str(wchar_t *in)
+char	*wchars_to_str(wchar_t *in)
 {
 	size_t	len;
 	char	*ret;
@@ -42,26 +42,8 @@ char	*wchar_to_str(wchar_t *in)
 	pos = 0;
 	while (*in)
 	{
-		if (*in <= 0x7F)
-			ret[pos++] = *in;
-		else if (*in <= 0x7FF)
-		{
-			ret[pos++] = 192 | (((unsigned int)(*in) >> 6) & 63);
-			ret[pos++] = 128 | ((unsigned int)(*in) & 63);
-		}
-		else if (*in <= 0xFFFF)
-		{
-			ret[pos++] = 224 | (((unsigned int)(*in) >> 12) & 63);
-			ret[pos++] = 128 | (((unsigned int)(*in) >> 6) & 63);
-			ret[pos++] = 128 | ((unsigned int)(*in) & 63);
-		}
-		else if (*in <= 0x10FFFF)
-		{
-			ret[pos++] = 240 | (((unsigned int)(*in) >> 18) & 63);
-			ret[pos++] = 128 | (((unsigned int)(*in) >> 12) & 63);
-			ret[pos++] = 128 | (((unsigned int)(*in) >> 6) & 63);
-			ret[pos++] = 128 | ((unsigned int)(*in) & 63);
-		}
+		wchar_to_str(*in, ret + pos);
+		pos += wchar_len(*in);
 		in++;
 	}
 	return (ret);
@@ -76,7 +58,8 @@ void	ft_conv_ws(char in, t_output *out, t_arg *flags, va_list *ap)
 	s = va_arg(*ap, wchar_t *);
 	if (!s)
 	{
-		if (!flags->got_precision ||(flags->got_precision && flags->precision >= 6))
+		if (!flags->got_precis
+			|| (flags->got_precis && flags->precision >= 6))
 			str = ft_strdup("(null)");
 		else
 			str = ft_strdup("");
@@ -85,7 +68,7 @@ void	ft_conv_ws(char in, t_output *out, t_arg *flags, va_list *ap)
 	{
 		s = wchar_dup(s);
 		handle_precision((char **)&s, flags, 'w');
-		str = wchar_to_str(s);
+		str = wchars_to_str(s);
 	}
 	handle_padding(&str, flags, 'w');
 	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
@@ -105,7 +88,8 @@ void	ft_conv_s(char in, t_output *out, t_arg *flags, va_list *ap)
 	s = va_arg(*ap, char *);
 	if (!s)
 	{
-		if (!flags->got_precision ||(flags->got_precision && flags->precision >= 6))
+		if (!flags->got_precis
+			|| (flags->got_precis && flags->precision >= 6))
 			s = ft_strdup("(null)");
 		else
 			s = ft_strdup("");

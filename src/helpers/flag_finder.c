@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 23:08:46 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:25:51 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 22:54:58 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 		}
 		if (in[x] == '.' && in[x + 1] != '*')
 		{
-			ret->got_precision = 1;
+			ret->got_precis = 1;
 			ret->precision = ft_atoi(in + x + 1);
 			x++;
 			while (in[x] && ft_isdigit(in[x]))
@@ -46,14 +46,10 @@ void	find_length(char *in, int len, t_arg *ret)
 	ret->length = none;
 	while (++x < len)
 	{
-		if (in[x] == 'h' && in[x + 1] == 'h' && ret->length < hh)
-			ret->length = hh;
-		else if (in[x] == 'h' && in[x - 1] != 'h' && ret->length < h)
-			ret->length = h;
-		else if (in[x] == 'l' && in[x + 1] == 'l' && ret->length < ll)
-			ret->length = ll;
-		else if (in[x] == 'l' && in[x - 1] != 'l' && ret->length < l)
-			ret->length = l;
+		if (in[x] == 'h' && ret->length < h)
+			ret->length = (in[++x] == 'h') ? hh : h;
+		else if (in[x] == 'l' && ret->length < ll)
+			ret->length = (in[++x] == 'l') ? ll : l;
 		else if (in[x] == 'L')
 			ret->length = L;
 		else if (in[x] == 'q')
@@ -69,6 +65,29 @@ void	find_length(char *in, int len, t_arg *ret)
 	}
 }
 
+void	parse_asterisk(char *in, int x, t_arg *ret, va_list *ap)
+{
+	int found;
+
+	if (in[x - 1] == '.')
+	{
+		found = va_arg(*ap, int);
+		if (found >= 0)
+		{
+			ret->precision = found;
+			ret->got_precis = 1;
+		}
+	}
+	else
+	{
+		found = va_arg(*ap, int);
+		if (found < 0)
+			ret->left_justify = 1;
+		ret->width = ABS(found);
+		ret->got_width = 1;
+	}
+}
+
 void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 {
 	int x;
@@ -78,25 +97,7 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 	while (++x < len)
 	{
 		if (in[x] == '*' && !ft_isdigit(in[x + 1]))
-		{
-			if (in[x - 1] == '.')
-			{
-				found = va_arg(*ap, int);
-				if (found >= 0)
-				{
-					ret->precision = found;
-					ret->got_precision = 1;
-				}
-			}
-			else
-			{
-				found = va_arg(*ap, int);
-				if (found < 0)
-					ret->left_justify = 1;
-				ret->width = ABS(found);
-				ret->got_width = 1;
-			}
-		}
+			parse_asterisk(in, x, ret, ap);
 		else if (in[x] == '*')
 			found = va_arg(*ap, int);
 	}
@@ -118,9 +119,9 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 		if (in[x] == '-')
 			ret->left_justify = 1;
 		if (in[x] == ' ')
-			ret->blank_sign = 1;
+			ret->blank = 1;
 		if (in[x] == '+')
-			ret->force_sign = 1;
+			ret->force = 1;
 		if (in[x] == '\'')
 			ret->grouping = 1;
 	}

@@ -6,7 +6,7 @@
 #    By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/25 19:00:08 by mhurd             #+#    #+#              #
-#    Updated: 2016/12/01 20:01:09 by mhurd            ###   ########.fr        #
+#    Updated: 2016/12/01 23:48:41 by mhurd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,39 +25,41 @@ SRC = src/ft_printf.c \
 	   src/helpers/handle_padding.c \
 	   src/helpers/handle_precision.c \
 	   src/helpers/num_to_string.c \
+	   src/helpers/wchar_to_str.c \
+	   src/helpers/num_helpers.c \
 	   src/conversions/ft_conv_s.c \
 	   src/conversions/ft_conv_c.c \
 	   src/conversions/ft_conv_nums.c \
 	   src/conversions/ft_conv_unimp.c \
 	   src/conversions/ft_conv_percent.c \
 	   src/conversions/ft_conv_n.c \
-	   			libft/ft_memalloc.c \
-				libft/ft_putstr.c \
-				libft/ft_strchr.c \
-				libft/ft_strdup.c \
-				libft/ft_strncpy.c \
-				libft/ft_strnew.c \
-				libft/ft_bzero.c \
-				libft/ft_putstr_fd.c \
-				libft/ft_strlen.c \
-				libft/ft_memset.c \
-				libft/ft_strcpy.c \
-				libft/ft_atoi.c \
-				libft/ft_isdigit.c \
-				libft/ft_isspace.c \
-				libft/ft_strnjoin.c \
-				libft/ft_memcpy.c \
-				libft/ft_itoa_base.c \
-				libft/ft_strjoin.c \
-				libft/ft_isalpha.c \
-				libft/ft_toupper.c \
-				libft/ft_isupper.c \
-				libft/ft_islower.c \
-				libft/ft_strcat.c \
-				libft/ft_strcmp.c \
-				libft/ft_isalnum.c \
-				libft/ft_isalpha.c \
-				libft/ft_strequ.c
+	   libft/ft_memalloc.c \
+	   libft/ft_putstr.c \
+	   libft/ft_strchr.c \
+	   libft/ft_strdup.c \
+	   libft/ft_strncpy.c \
+	   libft/ft_strnew.c \
+	   libft/ft_bzero.c \
+	   libft/ft_putstr_fd.c \
+	   libft/ft_strlen.c \
+	   libft/ft_memset.c \
+	   libft/ft_strcpy.c \
+	   libft/ft_atoi.c \
+	   libft/ft_isdigit.c \
+	   libft/ft_isspace.c \
+	   libft/ft_strnjoin.c \
+	   libft/ft_memcpy.c \
+	   libft/ft_itoa_base.c \
+	   libft/ft_strjoin.c \
+	   libft/ft_isalpha.c \
+	   libft/ft_toupper.c \
+	   libft/ft_isupper.c \
+	   libft/ft_islower.c \
+	   libft/ft_strcat.c \
+	   libft/ft_strcmp.c \
+	   libft/ft_isalnum.c \
+	   libft/ft_isalpha.c \
+	   libft/ft_strequ.c
 
 O =		$(addprefix $(ODIR), $(OBJ))
 
