@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:32:04 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 23:47:35 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/02 00:00:37 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	handle_alternative(char **str, t_arg *flags, char in)
 	flags->pad_zeroes = 0;
 	if ((in == 'x' || in == 'X' || in == 'p') && ft_strcmp("0", *str)
 		&& !(flags->precision == 0 && flags->got_precis))
-		*str = ft_strjoin("0x", *str);
+		*str = ft_strjoinf("0x", *str);
 	else if ((in == 'o' || in == 'O') && (*str)[0] != '0')
-		*str = ft_strjoin("0", *str);
+		*str = ft_strjoinf("0", *str);
 }
 
 void	pop_num(char *in, t_arg *flags, va_list *ap, uintmax_t *num)
@@ -69,7 +69,7 @@ void	handle_nums(char **str, t_arg *flags, char *in)
 		*str[0] = 0;
 	if (((flags->force || flags->blank) && *str[0] != '-') && *in == 'd')
 	{
-		*str = ft_strjoin(flags->blank ? " " : "+", *str);
+		*str = ft_strjoinf(flags->blank ? " " : "+", *str);
 		*str[0] = flags->force ? '+' : *str[0];
 	}
 	handle_precision(str, flags, (*in == 'd' || *in == 'p') ? 'd' : 'u');
@@ -81,7 +81,7 @@ void	handle_nums(char **str, t_arg *flags, char *in)
 	handle_alternative(str, flags, *in);
 	if (((flags->force || flags->blank) && *str[0] != '-') && (*in == 'p'))
 	{
-		*str = ft_strjoin(flags->blank ? " " : "+", *str);
+		*str = ft_strjoinf(flags->blank ? " " : "+", *str);
 		*str[0] = flags->force ? '+' : *str[0];
 	}
 	if (!(*in == 'x' && flags->pad_zeroes && flags->alternative))
@@ -108,7 +108,7 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 		}
 		if (flags->precision == 0 && flags->got_precis)
 			str = ft_strdup("");
-		str = ft_strjoin("0x", str);
+		str = ft_strjoinf("0x", str);
 		if (!flags->pad_zeroes)
 			handle_padding(&str, flags, 's');
 	}

@@ -1,8 +1,8 @@
 NAME =	libft.a
-FLAGS =	
+FLAGS =
 CC = 	gcc
 ODIR =	bin/
-IDIR = 
+IDIR =
 SRC =
 OBJ =	$(SRC:.c=.o)
 EXT =	$(IDIR)$(NAME:.a=.h)
@@ -103,6 +103,9 @@ SRC +=	ft_lstmap.c
 SRC	+=	ft_lstdelcont.c
 SRC	+=	ft_lst_add_back.c
 
+SRC +=	ft_strcatf.c
+SRC +=	ft_strjoinf.c
+
 SRC +=	ft_gnl.c
 
 O =		$(addprefix $(ODIR), $(OBJ))
@@ -133,7 +136,7 @@ clean:
 
 fclean: clean
 	@echo "-> Cleaning $(NAME)..."
-	@rm -f $(NAME) 
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 #    By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/25 19:00:08 by mhurd             #+#    #+#              #
-#    Updated: 2016/12/01 23:48:41 by mhurd            ###   ########.fr        #
+#    Updated: 2016/12/01 23:58:28 by mhurd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,8 @@ SRC = src/ft_printf.c \
 	   libft/ft_strcmp.c \
 	   libft/ft_isalnum.c \
 	   libft/ft_isalpha.c \
+	   libft/ft_strjoinf.c \
+	   libft/ft_strcatf.c \
 	   libft/ft_strequ.c
 
 O =		$(addprefix $(ODIR), $(OBJ))
