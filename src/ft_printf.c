@@ -6,17 +6,14 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 18:42:44 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 22:41:18 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-//REMOVE ME
-# include <locale.h>
-//PLEASE
-
 char	*g_convs = "diouxXDOUeEfFgGaACcSspn%Z";
+char	*g_valid = "diouxXDOUeEfFgGaACcSspn%Z.+-#0123456789\' *hlLqjzt";
 
 t_conv g_convtab[] =
 {
@@ -47,45 +44,17 @@ t_conv g_convtab[] =
 	{"Z", &ft_conv_percent}
 };
 
-void	handle_invalid(char **in, t_output *out, unsigned int len)
-{
-	char	*str;
-	char	*search;
-	int		i;
-
-	search = ft_strnew(len + 1);
-	ft_strncpy(search, *in, len + 1);
-	str = ft_strnew(len + 1);
-	str[0] = '%';
-	if (ft_strchr(search, '#'))
-		ft_strcat(str, "#");
-	if (ft_strchr(search, '+'))
-		ft_strcat(str, "+");
-	if (ft_strchr(search, '-'))
-		ft_strcat(str, "-");
-	i = 0;
-	while (search[++i])
-		if (search[i] != '#' && search[i] != '+' && search[i] != '-' && search[i] != ' ' && (search[i] != '0' || !ft_strchr(search, '-')))
-			break ;
-	ft_strcat(str, search + i);
-	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
-	out->len += ft_strlen(str);
-}
-
 void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 {
 	int		pos_in_tab;
 	t_arg	*flags;
 
 	flags = find_flags(*in, len, ap);
-	if (flags->invalid)
-	{
-		handle_invalid(in, out, len);
-		*in += len + 1;
-		return ;
-	}
 	pos_in_tab = ft_strchr(g_convs, (*in)[len]) - g_convs;
-	g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
+	if (pos_in_tab < 0)
+		ft_conv_percent((*in)[len], out, flags, ap);
+	else
+		g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
 	*in += len + 1;
 }
 
@@ -96,56 +65,22 @@ void	get_next_string(char **in, t_output *out, va_list *ap)
 
 	tmp = *in;
 	dist = ft_strchr(tmp, '%') - tmp;
-	if (dist > 0)
-	{
-		*in += dist;
-		out->str = ft_strnjoin(out->str, out->len, tmp, dist);
-		out->len += dist;
-		return ;
-	}
-	else if (dist < 0)
-	{
+	if (dist < 0)
 		dist = ft_strchr(*in, '\0') - tmp;
+	if (dist != 0)
+	{
 		out->str = ft_strnjoin(out->str, out->len, tmp, dist);
 		out->len += dist;
 		*in += dist;
 		return ;
 	}
 	tmp++;
-	while (*tmp && !ft_strchr(g_convs, *tmp))
+	while (*tmp && !ft_strchr(g_convs, *tmp) && ft_strchr(g_valid, *tmp))
 		tmp++;
 	if (*tmp)
 		do_conversion(in, out, ap, tmp - *in);
 	else
 		*in = tmp;
-}
-
-long	count_strings(char *in)
-{
-	long	ct;
-	char	*tmp;
-
-	ct = 0;
-	tmp = in;
-	while (*tmp)
-	{
-		while (*tmp != '%' && *tmp)
-			tmp++;
-		if (in != tmp)
-			ct++;
-		if (*tmp == '%')
-		{
-			in = ++tmp;
-			while (*tmp && !ft_strchr(g_convs, *tmp))
-				tmp++;
-			ct++;
-			if (*tmp)
-				in = ++tmp;
-			else
-				return (-1);
-		}
-	}
-	return (ct);
 }
 
 int		ft_printf(char *in, ...)
@@ -154,16 +89,27 @@ int		ft_printf(char *in, ...)
 	va_list		ap2;
 	t_output	out;
 
-
-	//REMOVE ME
-	setlocale(LC_ALL, "");
-	//PLEASE
 	va_start(ap, in);
 	va_copy(ap2, ap);
-	out.str = (char *)ft_memalloc(1);
+	out.str = ft_strnew(0);
 	out.len = 0;
 	while (*in)
 		get_next_string(&in, &out, &ap);
 	write(1, out.str, out.len);
 	return (out.len);
+}
+
+char	*ft_asprintf(char *in, ...)
+{
+	va_list		ap;
+	va_list		ap2;
+	t_output	out;
+
+	va_start(ap, in);
+	va_copy(ap2, ap);
+	out.str = ft_strnew(0);
+	out.len = 0;
+	while (*in)
+		get_next_string(&in, &out, &ap);
+	return (out.str);
 }

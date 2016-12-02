@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void	ft_conv_wc(char **str, va_list *ap)
+int		ft_conv_wc(char **str, va_list *ap)
 {
 	wchar_t in;
 	int		len;
@@ -12,22 +12,23 @@ void	ft_conv_wc(char **str, va_list *ap)
 		(*str)[0] = in;
 	else if (in <= 0x7FF)
 	{
-		(*str)[0] = (in >> 6) + 0xC0;
-		(*str)[1] = (in & 0x3F) + 0x80;
+		(*str)[0] = 192 | (((unsigned int)(in) >> 6) & 63);
+		(*str)[1] = 128 | ((unsigned int)(in) & 63);
 	}
 	else if (in <= 0xFFFF)
 	{
-		(*str)[0] = ((in >> 12) & 0xE0);
-		(*str)[1] = ((in >> 6) & 0x3F) + 0x80;
-		(*str)[2] = (in & 0x3F) + 0x80;
+		(*str)[0] = 224 | (((unsigned int)(in) >> 12) & 63);
+		(*str)[1] = 128 | (((unsigned int)(in) >> 6) & 63);
+		(*str)[2] = 128 | ((unsigned int)(in) & 63);
 	}
 	else if (in <= 0x10FFFF)
 	{
-		(*str)[0] = ((in >> 18) & 0xF0);
-		(*str)[1] = ((in >> 12) & 0x3F) + 0x80;
-		(*str)[2] = ((in >> 6) & 0x3F) + 0x80;
-		(*str)[3] = (in & 0x3F) + 0x80;
+		(*str)[0] = 240 | (((unsigned int)(in) >> 18) & 63);
+		(*str)[1] = 128 | (((unsigned int)(in) >> 12) & 63);
+		(*str)[2] = 128 | (((unsigned int)(in) >> 6) & 63);
+		(*str)[3] = 128 | ((unsigned int)(in) & 63);
 	}
+	return (in == 0);
 }
 
 void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
@@ -39,8 +40,12 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 	size_t	pos;
 
 	null = 0;
-	if (in == 'C')
-		ft_conv_wc(&str, ap);
+	if (in == 'C' || flags->length == l)
+	{
+		null = ft_conv_wc(&str, ap);
+		if (null)
+			str[0] = null;
+	}
 	else
 	{
 		c = va_arg(*ap, int);

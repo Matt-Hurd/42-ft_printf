@@ -54,7 +54,8 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 		flags->alternative = 1;
 		flags->length = p;
 	}
-	flags->length = (in == 'U') ? l : flags->length;
+	flags->length = (in == 'U' || in == 'D' || in == 'O') ? l : flags->length;
+	in = (in == 'D') ? 'd' : in;
 	if (flags->length == l || flags->length == p)
 		num = va_arg(*ap, long);
 	else if (flags->length == hh)
@@ -73,10 +74,18 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 	nill = (in == 'p' && ft_strcmp(str, "0") == 0) ? 1 : 0;
 	if (nill)
 	{
-		str = ft_strdup("0x0");
-		flags->got_precision = 0;
-		handle_precision(&str, flags, 's');
-		handle_padding(&str, flags, 's');
+		handle_precision(&str, flags, 'd');
+		if (flags->pad_zeroes)
+		{
+			flags->width = MAX(flags->width - 2, 0);
+			handle_padding(&str, flags, 's');
+		}
+		if (flags->precision == 0 && flags->got_precision)
+			str = ft_strdup("0x");
+		else
+			str = ft_strjoin("0x", str);
+		if (!flags->pad_zeroes)
+			handle_padding(&str, flags, 's');
 	}
 	else
 	{
@@ -87,11 +96,11 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 			str = ft_strjoin(flags->blank_sign ? " " : "+", str);
 			str[0] = flags->force_sign ? '+' : str[0];
 		}
-		handle_precision(&str, flags, (in == 'd' || in == 'D' || in == 'p') ? 'd' : 'u');
+		handle_precision(&str, flags, (in == 'd' || in == 'p') ? 'd' : 'u');
 		if (in == 'x' && flags->pad_zeroes && flags->alternative)
 		{
 			flags->width = MAX(flags->width - 2, 0);
-			handle_padding(&str, flags, (in == 'd' || in == 'D') ? 'd' : 'u');
+			handle_padding(&str, flags, (in == 'd') ? 'd' : 'u');
 		}
 		handle_alternative(&str, flags, in);
 		if (((flags->force_sign || flags->blank_sign) && str[0] != '-') && (in == 'p'))
@@ -100,7 +109,7 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 			str[0] = flags->force_sign ? '+' : str[0];
 		}
 		if (!(in == 'x' && flags->pad_zeroes && flags->alternative))
-			handle_padding(&str, flags, (in == 'd' || in == 'D') ? 'd' : 'u');
+			handle_padding(&str, flags, (in == 'd') ? 'd' : 'u');
 		handle_upper(str, in);
 	}
 	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));

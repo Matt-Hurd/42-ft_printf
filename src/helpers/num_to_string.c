@@ -9,9 +9,15 @@ int		handle_unsign(uintmax_t *value, char type)
 	else if (type == ll && *value > LLONG_MAX)
 		*value = *value - (UINTMAX_MAX - ULLONG_MAX);
 	else if (type == h && *value > SHRT_MAX)
+	{
 		*value = *value - (UINTMAX_MAX) - 1;
+		*value %= (USHRT_MAX) + 1;
+	}
 	else if (type == hh && *value > SCHAR_MAX)
+	{
 		*value = *value - (UINTMAX_MAX) - 1;
+		*value %= (UCHAR_MAX) + 1;
+	}
 	else if (*value > INT_MAX && type != hh && type != h && type != ll && type != l && type != j && type != z)
 		*value = *value - (UINTMAX_MAX - UINT_MAX);
 	if (type == p && *value > 0x100000000)
@@ -23,9 +29,16 @@ int		handle_sign(uintmax_t *value, u32 base, char unsign, char type)
 {
 	if (unsign || base != 10)
 		return (handle_unsign(value, type));
+	else if (type == j && *value == (unsigned long)LONG_MIN)
+		;
 	else if (type == hh && *value > SCHAR_MAX)
 	{
 		*value %= UCHAR_MAX;
+		if (*value > CHAR_MAX)
+		{
+			*value = UINTMAX_MAX - (*value - UCHAR_MAX) + 2;
+			return (2);
+		}
 		return ((char)*value < 0 ? 2 : 1);
 	}
 	else if (type == h && *value > SHRT_MAX)

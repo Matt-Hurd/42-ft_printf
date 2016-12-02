@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 23:08:46 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 18:52:27 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 22:25:51 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 {
 	int x;
 
-	x = -1;
+	x = 0;
 	while (x < len)
 	{
 		if (in[x] != '0' && ft_isdigit(in[x]) && in[x - 1] != '.')
@@ -77,15 +77,10 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 	x = -1;
 	while (++x < len)
 	{
-		if (in[x] == '*')
+		if (in[x] == '*' && !ft_isdigit(in[x + 1]))
 		{
 			if (in[x - 1] == '.')
 			{
-				if (ret->got_precision)
-				{
-					ret->invalid = 1;
-					return ;
-				}
 				found = va_arg(*ap, int);
 				if (found >= 0)
 				{
@@ -95,11 +90,6 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 			}
 			else
 			{
-				if (ret->got_width)
-				{
-					ret->invalid = 1;
-					return ;
-				}
 				found = va_arg(*ap, int);
 				if (found < 0)
 					ret->left_justify = 1;
@@ -107,10 +97,10 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 				ret->got_width = 1;
 			}
 		}
+		else if (in[x] == '*')
+			found = va_arg(*ap, int);
 	}
 }
-
-char	*g_valid = "diouxXDOUeEfFgGaACcSspn%Z.+-#0123456789\' *hlLqjzt";
 
 t_arg	*find_flags(char *in, int len, va_list *ap)
 {
@@ -121,35 +111,18 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 	ret = (t_arg *)ft_memalloc(sizeof(t_arg));
 	while (++x < len)
 	{
-		if (!ft_strchr(g_valid, in[x]))
-		{
-			ret->invalid = 1;
-			return ret;
-		}
 		if (in[x] == '#')
-		{
 			ret->alternative = 1;
-		}
 		if (in[x] == '0' && in[x - 1] != '.' && !ft_isdigit(in[x - 1]))
-		{
 			ret->pad_zeroes = 1;
-		}
 		if (in[x] == '-')
-		{
-			if (ret->left_justify)
-				ret->invalid = 1;
 			ret->left_justify = 1;
-		}
 		if (in[x] == ' ')
 			ret->blank_sign = 1;
 		if (in[x] == '+')
 			ret->force_sign = 1;
 		if (in[x] == '\'')
-		{
-			if (ret->grouping)
-				ret->invalid = 1;
 			ret->grouping = 1;
-		}
 	}
 	find_width_precision(in, len, ret);
 	find_asterisk(in, ret, ap, len);

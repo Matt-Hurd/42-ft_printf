@@ -38,8 +38,7 @@ void	handle_wchar_precision(wchar_t **str, t_arg *flags)
 	count = 0;
 	while ((*str)[count] && curr_len <= flags->precision)
 		curr_len += wchar_len((*str)[count++]);
-	if ((*str)[count])
-		(*str)[count - 1] = 0;
+	(*str)[count - 1] = 0;
 }
 
 void	handle_precision(char **str, t_arg *flags, char type)
@@ -65,7 +64,7 @@ void	handle_precision(char **str, t_arg *flags, char type)
 		alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;
 		if (alt)
 			(*str)++;
-		n = ft_memalloc(sizeof(char) * flags->precision + !!alt);
+		n = ft_strnew(flags->precision + !!alt);
 		ft_memset(n + !!alt, '0', flags->precision - ft_strlen(*str));
 		ft_strcpy(n + flags->precision - ft_strlen(*str) + !!alt, *str);
 		if (alt)

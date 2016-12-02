@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:27:59 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 18:59:01 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 22:41:36 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 # include <stdint.h>
 
 # define SIZET_MAX (~(size_t)0)
-
-
-
-#include <stdio.h>
 
 typedef unsigned int u32;
 
@@ -51,7 +47,6 @@ typedef struct		s_arg
 	int				got_width : 1;
 	int				got_precision : 1;
 	int				asterisk : 1;
-	int				invalid : 1;
 	unsigned int	width;
 	unsigned int	precision;
 	char			length;
@@ -74,6 +69,7 @@ void	ft_conv_s(char in,  t_output *out, t_arg *flags, va_list *ap);
 void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap);
 t_arg	*find_flags(char *in, int len, va_list *ap);
 int		ft_printf(char *in, ...);
+char	*ft_asprintf(char *in, ...);
 
 void	handle_padding(char **str, t_arg *flags, char type);
 void	handle_precision(char **str, t_arg *flags, char type);

@@ -6,7 +6,7 @@
 #    By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/25 19:00:08 by mhurd             #+#    #+#              #
-#    Updated: 2016/12/01 15:32:12 by mhurd            ###   ########.fr        #
+#    Updated: 2016/12/01 20:01:09 by mhurd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,15 +86,17 @@ $(O): | ./bin
 	@mkdir $(ODIR)/libft/
 
 test: $(NAME)
-	$(CC) -o $@ -I includes main.c -L. -lftprintf -L./libft -lft
-	
+	$(CC) -o $@ -I includes main.c -L. -lftprintf
+
 clean:
 	@echo "-> Cleaning libft object files..."
 	@rm -rf bin/
+	@make -C libft/ clean
 
 fclean: clean
 	@echo "-> Cleaning $(NAME)..."
 	@rm -f $(NAME)
+	make -C libft/ fclean
 
 re: fclean all
 
