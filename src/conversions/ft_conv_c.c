@@ -1,13 +1,11 @@
 #include "ft_printf.h"
 
-//TODO: Wide chars
-
 void	ft_conv_wc(char **str, va_list *ap)
 {
 	wchar_t in;
 	int		len;
-	
-	in = va_arg(ap, wchar_t);
+
+	in = va_arg(*ap, wchar_t);
 	len = wchar_len(in);
 	*str = ft_strnew(len);
 	if (in <= 0x7F)
@@ -40,12 +38,12 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 	size_t	len;
 	size_t	pos;
 
-	(void)in;
+	null = 0;
 	if (in == 'C')
 		ft_conv_wc(&str, ap);
 	else
 	{
-		c = va_arg(ap, int);
+		c = va_arg(*ap, int);
 		str = ft_strnew(1);
 		null = (c == 0) ? 1 : 0;
 		str[0] = c + null;

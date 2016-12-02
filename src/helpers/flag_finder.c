@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 23:08:46 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/06 17:53:00 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 18:52:27 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 	{
 		if (in[x] != '0' && ft_isdigit(in[x]) && in[x - 1] != '.')
 		{
-			if (ret->got_width)
-			{
-				ret->invalid = 1;
-				return ;
-			}
 			ret->got_width = 1;
 			ret->width = ft_atoi(in + x);
 			while (in[x] && ft_isdigit(in[x]))
@@ -33,14 +28,10 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 		}
 		if (in[x] == '.' && in[x + 1] != '*')
 		{
-			if (ret->got_precision)
-			{
-				ret->invalid = 1;
-				return ;
-			}
 			ret->got_precision = 1;
 			ret->precision = ft_atoi(in + x + 1);
-			while (in[x] && ft_isdigit(in[x++]))
+			x++;
+			while (in[x] && ft_isdigit(in[x]))
 				x++;
 		}
 		x++;
@@ -50,20 +41,18 @@ void	find_width_precision(char *in, int len, t_arg *ret)
 void	find_length(char *in, int len, t_arg *ret)
 {
 	int	x;
-	int found;
 
 	x = -1;
 	ret->length = none;
-	found = 0;
 	while (++x < len)
 	{
-		if (in[x] == 'h' && in[x + 1] == 'h')
+		if (in[x] == 'h' && in[x + 1] == 'h' && ret->length < hh)
 			ret->length = hh;
-		else if (in[x] == 'h' && in[x - 1] != 'h')
+		else if (in[x] == 'h' && in[x - 1] != 'h' && ret->length < h)
 			ret->length = h;
-		else if (in[x] == 'l' && in[x + 1] == 'l')
+		else if (in[x] == 'l' && in[x + 1] == 'l' && ret->length < ll)
 			ret->length = ll;
-		else if (in[x] == 'l' && in[x - 1] != 'l')
+		else if (in[x] == 'l' && in[x - 1] != 'l' && ret->length < l)
 			ret->length = l;
 		else if (in[x] == 'L')
 			ret->length = L;
@@ -77,12 +66,6 @@ void	find_length(char *in, int len, t_arg *ret)
 			ret->length = t;
 		else
 			continue ;
-		if (found)
-		{
-			ret->invalid = 1;
-			return ;
-		}
-		found = 1;
 	}
 }
 
@@ -103,7 +86,7 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 					ret->invalid = 1;
 					return ;
 				}
-				found = va_arg(ap, int);
+				found = va_arg(*ap, int);
 				if (found >= 0)
 				{
 					ret->precision = found;
@@ -117,7 +100,7 @@ void	find_asterisk(char *in, t_arg *ret, va_list *ap, int len)
 					ret->invalid = 1;
 					return ;
 				}
-				found = va_arg(ap, int);
+				found = va_arg(*ap, int);
 				if (found < 0)
 					ret->left_justify = 1;
 				ret->width = ABS(found);
@@ -145,14 +128,10 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 		}
 		if (in[x] == '#')
 		{
-			if (ret->alternative)
-				ret->invalid = 1;
 			ret->alternative = 1;
 		}
 		if (in[x] == '0' && in[x - 1] != '.' && !ft_isdigit(in[x - 1]))
 		{
-			while (in[x] && ft_isdigit(in[x]))
-				x++;
 			ret->pad_zeroes = 1;
 		}
 		if (in[x] == '-')
@@ -164,11 +143,7 @@ t_arg	*find_flags(char *in, int len, va_list *ap)
 		if (in[x] == ' ')
 			ret->blank_sign = 1;
 		if (in[x] == '+')
-		{
-			if (ret->force_sign)
-				ret->invalid = 1;
 			ret->force_sign = 1;
-		}
 		if (in[x] == '\'')
 		{
 			if (ret->grouping)

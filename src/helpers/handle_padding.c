@@ -10,7 +10,7 @@ void	handle_padding(char **str, t_arg *flags, char type)
 		return ;
 	if (ft_strlen(*str) >= flags->width)
 		return ;
-	n = ft_memalloc(sizeof(char) * flags->width);
+	n = ft_strnew(flags->width);
 	if (flags->left_justify)
 	{
 		ft_strcpy(n, *str);
@@ -19,7 +19,7 @@ void	handle_padding(char **str, t_arg *flags, char type)
 	else
 	{
 		alt = 0;
-		if (flags->pad_zeroes && (type == 'd' || type == 'u'))
+		if (flags->pad_zeroes)
 		{
 			alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;
 			ft_memset(n, '0', flags->width - ft_strlen(*str) + !!alt);

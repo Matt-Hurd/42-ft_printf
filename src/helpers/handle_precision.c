@@ -32,7 +32,7 @@ void	handle_wchar_precision(wchar_t **str, t_arg *flags)
 	size_t	curr_len;
 	int		count;
 
-	if (wcharp_len(*str) <= flags->precision) //TODO: probably need to check, might not be null terminated
+	if (wcharp_len(*str) <= flags->precision)
 		return ;
 	curr_len = 0;
 	count = 0;
@@ -53,14 +53,14 @@ void	handle_precision(char **str, t_arg *flags, char type)
 		handle_wchar_precision((wchar_t **)str, flags);
 	else if (type == 's')
 	{
-		if (ft_strlen(*str) <= flags->precision) //TODO: probably need to check, might not be null terminated
+		if (ft_strlen(*str) <= flags->precision)
 			return ;
 		(*str)[flags->precision] = 0;
 	}
 	else if (type == 'd' || type == 'u')
 	{
-		flags->pad_zeroes = 0;	
-		if (ft_strlen(*str) >= flags->precision)
+		flags->pad_zeroes = 0;
+		if (ft_strlen(*str) > flags->precision)
 			return ;
 		alt = (!ft_isalnum((*str)[0]) && type == 'd') ? (*str)[0] : 0;
 		if (alt)

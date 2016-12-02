@@ -2,7 +2,6 @@
 #include "libft.h"
 
 char *g_hex = "0123456789ABCDEF";
-//TODO: remove global?
 char	*ft_itoa_base(int value, int base)
 {
 	char	*ret;

@@ -6,7 +6,7 @@
 #    By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/25 19:00:08 by mhurd             #+#    #+#              #
-#    Updated: 2016/11/20 03:37:56 by mhurd            ###   ########.fr        #
+#    Updated: 2016/12/01 15:32:12 by mhurd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,8 @@ SRC = src/ft_printf.c \
 				libft/ft_strcat.c \
 				libft/ft_strcmp.c \
 				libft/ft_isalnum.c \
-				libft/ft_isalpha.c
+				libft/ft_isalpha.c \
+				libft/ft_strequ.c
 
 O =		$(addprefix $(ODIR), $(OBJ))
 
@@ -84,13 +85,16 @@ $(O): | ./bin
 	@mkdir $(ODIR)src/helpers/
 	@mkdir $(ODIR)/libft/
 
+test: $(NAME)
+	$(CC) -o $@ -I includes main.c -L. -lftprintf -L./libft -lft
+	
 clean:
 	@echo "-> Cleaning libft object files..."
 	@rm -rf bin/
 
 fclean: clean
 	@echo "-> Cleaning $(NAME)..."
-	@rm -f $(NAME) 
+	@rm -f $(NAME)
 
 re: fclean all
 

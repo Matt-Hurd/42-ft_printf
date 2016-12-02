@@ -6,11 +6,15 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/06 16:17:08 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 18:42:44 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+//REMOVE ME
+# include <locale.h>
+//PLEASE
 
 char	*g_convs = "diouxXDOUeEfFgGaACcSspn%Z";
 
@@ -40,7 +44,7 @@ t_conv g_convtab[] =
 	{"p", &ft_conv_nums},
 	{"n", &ft_conv_n},
 	{"%", &ft_conv_percent},
-	{"Z", &ft_conv_unimp}
+	{"Z", &ft_conv_percent}
 };
 
 void	handle_invalid(char **in, t_output *out, unsigned int len)
@@ -48,7 +52,7 @@ void	handle_invalid(char **in, t_output *out, unsigned int len)
 	char	*str;
 	char	*search;
 	int		i;
-	
+
 	search = ft_strnew(len + 1);
 	ft_strncpy(search, *in, len + 1);
 	str = ft_strnew(len + 1);
@@ -112,6 +116,8 @@ void	get_next_string(char **in, t_output *out, va_list *ap)
 		tmp++;
 	if (*tmp)
 		do_conversion(in, out, ap, tmp - *in);
+	else
+		*in = tmp;
 }
 
 long	count_strings(char *in)
@@ -148,6 +154,10 @@ int		ft_printf(char *in, ...)
 	va_list		ap2;
 	t_output	out;
 
+
+	//REMOVE ME
+	setlocale(LC_ALL, "");
+	//PLEASE
 	va_start(ap, in);
 	va_copy(ap2, ap);
 	out.str = (char *)ft_memalloc(1);

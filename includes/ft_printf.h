@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:27:59 by mhurd             #+#    #+#             */
-/*   Updated: 2016/10/06 17:09:39 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/01 18:59:01 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 typedef unsigned int u32;
 
-enum { //length
+enum {
 		none,
 		hh,
 		h,
@@ -42,13 +42,13 @@ enum { //length
 
 typedef struct		s_arg
 {
-	int				alternative : 1; //'#'
-	int				left_justify : 1; //'-'
-	int				force_sign : 1; //'+'
-	int				blank_sign : 1; //' '
-	int				pad_zeroes : 1; //'0'
-	int				grouping : 1; //'
-	int				got_width : 1; //
+	int				alternative : 1;
+	int				left_justify : 1;
+	int				force_sign : 1;
+	int				blank_sign : 1;
+	int				pad_zeroes : 1;
+	int				grouping : 1;
+	int				got_width : 1;
 	int				got_precision : 1;
 	int				asterisk : 1;
 	int				invalid : 1;
