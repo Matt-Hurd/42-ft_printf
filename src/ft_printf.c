@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:41:18 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/03 17:19:01 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		ft_printf(char *in, ...)
 	return (out.len);
 }
 
-char	*ft_asprintf(char *in, ...)
+int		ft_dprintf(int fd, char *in, ...)
 {
 	va_list		ap;
 	va_list		ap2;
@@ -111,5 +111,22 @@ char	*ft_asprintf(char *in, ...)
 	out.len = 0;
 	while (*in)
 		get_next_string(&in, &out, &ap);
-	return (out.str);
+	write(fd, out.str, out.len);
+	return (out.len);
+}
+
+int		ft_asprintf(char **str, char *in, ...)
+{
+	va_list		ap;
+	va_list		ap2;
+	t_output	out;
+
+	va_start(ap, in);
+	va_copy(ap2, ap);
+	out.str = ft_strnew(0);
+	out.len = 0;
+	while (*in)
+		get_next_string(&in, &out, &ap);
+	*str = out.str;
+	return (out.len);
 }

@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:27:59 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 23:49:00 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/03 17:18:42 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void				ft_conv_nums(char in, t_output *out, t_arg *flags,
 						va_list *ap);
 t_arg				*find_flags(char *in, int len, va_list *ap);
 int					ft_printf(char *in, ...);
-char				*ft_asprintf(char *in, ...);
+int					ft_asprintf(char **out, char *in, ...);
+int					ft_dprintf(int fd, char *in, ...);
 
 void				handle_padding(char **str, t_arg *flags, char type);
 void				handle_precision(char **str, t_arg *flags, char type);
