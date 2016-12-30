@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 09:58:28 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 10:50:14 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:43:38 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void			ft_lst_add_back(t_list **alst, t_list *new);
 
 int				ft_get_next_line(const int fd, char **line);
 char			*ft_strcatf(char *dest, const char *src);
-char			*ft_strjoinf(char const *s1, char const *s2);
+char			*ft_strjoinf(char const *s1, char *s2);
 
 typedef struct	s_file_buff
 {
