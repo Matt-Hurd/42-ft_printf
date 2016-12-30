@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/03 17:19:01 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 10:44:55 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	get_next_string(char **in, t_output *out, va_list *ap)
 		dist = ft_strchr(*in, '\0') - tmp;
 	if (dist != 0)
 	{
-		out->str = ft_strnjoin(out->str, out->len, tmp, dist);
+		out->str = ft_strnjoinf(out->str, out->len, tmp, dist);
 		out->len += dist;
 		*in += dist;
 		return ;
@@ -96,6 +96,7 @@ int		ft_printf(char *in, ...)
 	while (*in)
 		get_next_string(&in, &out, &ap);
 	write(1, out.str, out.len);
+	free(out.str);
 	return (out.len);
 }
 
@@ -112,6 +113,7 @@ int		ft_dprintf(int fd, char *in, ...)
 	while (*in)
 		get_next_string(&in, &out, &ap);
 	write(fd, out.str, out.len);
+	free(out.str);
 	return (out.len);
 }
 

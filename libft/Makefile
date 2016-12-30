@@ -80,6 +80,7 @@ SRC +=	ft_strjoin.c
 SRC +=	ft_strtrim.c
 SRC +=	ft_strsplit.c
 SRC +=	ft_strnjoin.c
+SRC +=	ft_strnjoinf.c
 
 SRC +=	ft_strcjoin.c
 SRC +=	ft_printjoin.c

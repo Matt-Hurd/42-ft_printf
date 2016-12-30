@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnjoinf.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/06 16:17:24 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 10:55:17 by mhurd            ###   ########.fr       */
+/*   Created: 2016/09/21 23:03:48 by mhurd             #+#    #+#             */
+/*   Updated: 2016/12/30 10:50:05 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-# include <locale.h>
+#include "libft.h"
+#include <stdlib.h>
 
-int		main(int ac, char **av)
+char	*ft_strnjoinf(char *s1, int len1, char const *s2, int len2)
 {
-	int x, y;
+	char *ret;
 
-	setlocale(LC_ALL, "");
-	x = 0;
-	y = 0;
-	// x = ft_printf("%hhd - %hhd\n", SHRT_MAX - 42, SHRT_MAX - 4200);
-	// y = printf("%hhd - %hhd\n", SHRT_MAX - 42, SHRT_MAX - 4200);
-	ft_printf("%.0p\n", 0);
-	printf("%.0p\n", 0);
-	return (0);
+	if (!s1 || !s2)
+		return (NULL);
+	ret = ft_strnew(len1 + len2);
+	if (!ret)
+		return (NULL);
+	ft_memcpy(ret, s1, len1);
+	ft_memcpy(ret + len1, s2, len2);
+	free(s1);
+	return (ret);
 }

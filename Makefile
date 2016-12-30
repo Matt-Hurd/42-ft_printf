@@ -6,7 +6,7 @@
 #    By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/25 19:00:08 by mhurd             #+#    #+#              #
-#    Updated: 2016/12/01 23:58:28 by mhurd            ###   ########.fr        #
+#    Updated: 2016/12/30 10:48:53 by mhurd            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC = src/ft_printf.c \
 	   libft/ft_isdigit.c \
 	   libft/ft_isspace.c \
 	   libft/ft_strnjoin.c \
+	   libft/ft_strnjoinf.c \
 	   libft/ft_memcpy.c \
 	   libft/ft_itoa_base.c \
 	   libft/ft_strjoin.c \
@@ -64,6 +65,10 @@ SRC = src/ft_printf.c \
 	   libft/ft_strequ.c
 
 O =		$(addprefix $(ODIR), $(OBJ))
+
+ifdef ALLOCWRAP
+	LDFLAGS += $(HOME)/lib/alloc_wrap.c -ldl
+endif
 
 all: $(NAME)
 
@@ -90,7 +95,7 @@ $(O): | ./bin
 	@mkdir $(ODIR)/libft/
 
 test: $(NAME)
-	$(CC) -o $@ -I includes main.c -L. -lftprintf
+	$(CC) $(LDFLAGS) -o $@ -I includes main.c -L. -lftprintf
 
 clean:
 	@echo "-> Cleaning libft object files..."

@@ -3,3 +3,4 @@ libft/bin
 *.o
 *.a
 test
+.*

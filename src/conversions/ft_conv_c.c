@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:26:10 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 23:27:14 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 10:48:08 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_null(char *str, t_output *out, char null)
 			str[pos] = 0;
 		pos++;
 	}
-	out->str = ft_strnjoin(out->str, out->len, str, len);
+	out->str = ft_strnjoinf(out->str, out->len, str, len);
 	out->len += len;
 }
 
@@ -48,11 +48,8 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 	char	null;
 
 	null = 0;
-	if (in == 'C' || flags->length == l)
-	{
-		null = ft_conv_wc(&str, ap);
-		str[0] = (null) ? null : str[0];
-	}
+	if ((in == 'C' || flags->length == l) && (null = ft_conv_wc(&str, ap)))
+		str[0] = null;
 	else
 	{
 		c = va_arg(*ap, int);
@@ -65,7 +62,8 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 		handle_null(str, out, null);
 	else
 	{
-		out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
+		out->str = ft_strnjoinf(out->str, out->len, str, ft_strlen(str));
+		free(str);
 		out->len += ft_strlen(str);
 	}
 }
