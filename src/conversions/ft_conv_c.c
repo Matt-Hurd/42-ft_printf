@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:26:10 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 11:04:17 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:09:18 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	handle_null(char *str, t_output *out, char null)
 		pos++;
 	}
 	out->str = ft_strnjoinf(out->str, out->len, str, len);
-	free(str);
 	out->len += len;
+	free(str);
 }
 
 void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
@@ -67,7 +67,7 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 	else
 	{
 		out->str = ft_strnjoinf(out->str, out->len, str, ft_strlen(str));
-		free(str);
 		out->len += ft_strlen(str);
+		free(str);
 	}
 }
