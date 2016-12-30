@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:26:10 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 10:48:08 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 10:59:38 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void	ft_conv_c(char in, t_output *out, t_arg *flags, va_list *ap)
 	char	null;
 
 	null = 0;
-	if ((in == 'C' || flags->length == l) && (null = ft_conv_wc(&str, ap)))
-		str[0] = null;
+	if (in == 'C' || flags->length == l)
+	{
+		null = ft_conv_wc(&str, ap);
+		str[0] = (null) ? null : str[0];
+	}
 	else
 	{
 		c = va_arg(*ap, int);
