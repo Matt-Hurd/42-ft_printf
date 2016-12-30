@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:32:04 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 11:02:19 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:12:04 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,10 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 {
 	uintmax_t	num;
 	char		*str;
-	char		nill;
 
 	pop_num(&in, flags, ap, &num);
 	str = ft_num_to_base(num, find_base(in), find_sign(in), flags->length);
-	nill = (in == 'p' && ft_strcmp(str, "0") == 0) ? 1 : 0;
-	if (nill)
+	if ((in == 'p' && ft_strcmp(str, "0") == 0))
 	{
 		handle_precision(&str, flags, 'd');
 		if (flags->pad_zeroes)
@@ -114,6 +112,7 @@ void	ft_conv_nums(char in, t_output *out, t_arg *flags, va_list *ap)
 	}
 	else
 		handle_nums(&str, flags, &in);
-	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
+	out->str = ft_strnjoinf(out->str, out->len, str, ft_strlen(str));
 	out->len += ft_strlen(str);
+	free(str);
 }
