@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 22:43:43 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:49:17 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:23:24 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	handle_padding(char **str, t_arg *flags, char type)
 	}
 	else
 		right_justify(str, flags, type, n);
+	free(*str);
 	*str = n;
 }

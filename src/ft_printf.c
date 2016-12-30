@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/23 17:28:58 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 10:44:55 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:22:06 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	do_conversion(char **in, t_output *out, va_list *ap, unsigned int len)
 	else
 		g_convtab[pos_in_tab].ft((*in)[len], out, flags, ap);
 	*in += len + 1;
+	free(flags);
 }
 
 void	get_next_string(char **in, t_output *out, va_list *ap)

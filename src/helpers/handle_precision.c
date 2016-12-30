@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 22:55:29 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 22:58:03 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:24:53 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	digit_precision(char **str, t_arg *flags, char type)
 	ft_strcpy(n + flags->precision - ft_strlen(*str) + !!alt, *str);
 	if (alt)
 		n[0] = alt;
+	free(*str);
 	*str = n;
 }
 

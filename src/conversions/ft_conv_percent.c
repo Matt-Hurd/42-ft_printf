@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:28:06 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/01 23:28:29 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:27:29 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_conv_percent(char in, t_output *out, t_arg *flags, va_list *ap)
 	str = ft_strnew(1);
 	str[0] = in;
 	handle_padding(&str, flags, '%');
-	out->str = ft_strnjoin(out->str, out->len, str, ft_strlen(str));
+	out->str = ft_strnjoinf(out->str, out->len, str, ft_strlen(str));
 	out->len += ft_strlen(str);
+	free(str);
 }
