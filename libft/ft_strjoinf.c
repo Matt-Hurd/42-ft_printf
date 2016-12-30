@@ -6,7 +6,7 @@
 /*   By: mhurd <mhurd@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/01 23:55:45 by mhurd             #+#    #+#             */
-/*   Updated: 2016/12/30 11:43:10 by mhurd            ###   ########.fr       */
+/*   Updated: 2016/12/30 11:45:23 by mhurd            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*ft_strjoinf(char const *s1, char *s2)
 	if (!ret)
 		return (NULL);
 	ft_strcpy(ret, s1);
+	ret = ft_strcat(ret, s2);
 	free(s2);
-	return (ft_strcat(ret, s2));
+	return (ret);
 }
